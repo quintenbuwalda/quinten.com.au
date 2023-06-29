@@ -100,6 +100,10 @@ function collisionDetection() {
           dy = -dy;
           b.status = 0;
           score++;
+
+          var point = new Audio('point.mp3');
+          point.play();
+
           if(score == brickRowCount*brickColumnCount) {
             // alert("win scenario");
 
@@ -140,7 +144,7 @@ function drawBricks() {
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
 
-        image = bricks[c][r].image
+        image = bricks[c][r].image;
 
         //COMMENT OUT FOR BRICKS
         ctx.drawImage(image, brickX, brickY, brickWidth, brickHeight);
@@ -194,6 +198,10 @@ function draw() {
     }
     else {
       lives--;
+
+      var lose = new Audio('lose.mp3');
+      lose.play();
+      
       if(!lives) {
         alert("GAME OVER");
         document.location.reload();
