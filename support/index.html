@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form name="contact" method="POST" netlify>
+    <form name="contact" method="POST" netlify netlify-honeypot="namee">
 		<input name="name" placeholder="What is your name?" class="name" required />
+        <p class="hidden"><label>Don’t fill this out if you’re human: <input name="namee" /></label></p>
 		<input name="emailaddress" placeholder="What is your email?" class="email" type="email" required />
     <textarea rows="4" cols="50" name="subject" placeholder="Please enter your message" class="message" required></textarea>
+    <div data-netlify-recaptcha="true"></div>
     <input name="submit" class="btn" type="submit" value="Send" />
 </form>
 </html>
