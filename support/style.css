@@ -52,6 +52,11 @@ textarea{
     resize: vertical;
 }
 
+.hideme {
+    display: none;
+    /* visibility: hidden; */
+}
+
 input {
     width: 276px;
     height: 48px;
