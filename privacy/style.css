@@ -1,0 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+body {
+  	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	padding-left: 1%;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:18px;
+}
