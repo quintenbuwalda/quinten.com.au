@@ -1,4 +1,4 @@
-# /robots.txt file for https://quinten.com.au
+# robots.txt
 
-User-agent: *
+Useragent: *
 Allow: /
