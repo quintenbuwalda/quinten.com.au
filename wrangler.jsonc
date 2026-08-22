@@ -2,6 +2,6 @@
   "name": "personal-site",
   "compatibility_date": "2026-08-20",
   "assets": {
-    "directory": "./static"
+    "directory": "./public"
   }
 }
