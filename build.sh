@@ -26,6 +26,7 @@ find src -type f -name '*.tex' | while read -r file; do
   output="${relative%.tex}"
 
   mkdir -p "public/$(dirname "$output")"
+  mkdir -p "public/_markdown/$(dirname "$output")"
 
   echo "Building $file"
 
@@ -35,9 +36,10 @@ find src -type f -name '*.tex' | while read -r file; do
     --css="/style.css" \
     --output="public/$output.html"
 
+
   pandoc "$file" \
     --to=gfm \
-    --output="public/$output.md"
+    --output="public/_markdown/$output.md"
 done
 
 # BUILD SITEMAP
