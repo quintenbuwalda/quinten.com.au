@@ -30,6 +30,7 @@ find src -type f -name '*.tex' | while read -r file; do
   pandoc "$file" \
     --standalone \
     --to=html5 \
+    --css="/style.css" \
     --output="public/$output.html"
 
   pandoc "$file" \
