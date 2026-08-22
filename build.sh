@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# INSTALL PANDOC
 PANDOC_VERSION="3.8.2"
 
 if ! command -v pandoc >/dev/null 2>&1; then
@@ -19,6 +20,7 @@ if ! command -v pandoc >/dev/null 2>&1; then
   export PATH="/tmp/pandoc/bin:$PATH"
 fi
 
+# COMPILE PAGES
 find src -type f -name '*.tex' | while read -r file; do
   relative="${file#src/}"
   output="${relative%.tex}"
@@ -37,3 +39,31 @@ find src -type f -name '*.tex' | while read -r file; do
     --to=gfm \
     --output="public/$output.md"
 done
+
+# BUILD SITEMAP
+SITE_URL="https://quinten.com.au"
+
+{
+  echo '<?xml version="1.0" encoding="UTF-8"?>'
+  echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+
+  find src -type f -name '*.tex' | sort | while read -r file; do
+    relative="${file#src/}"
+    page="${relative%.tex}"
+
+    # index.tex is the site root
+    if [[ "$page" == "index" ]]; then
+      url="$SITE_URL/"
+    else
+      url="$SITE_URL/$page.html"
+    fi
+
+    echo '  <url>'
+    echo "    <loc>$url</loc>"
+    echo '  </url>'
+  done
+
+  echo '</urlset>'
+} > public/sitemap.xml
+
+echo "Generated public/sitemap.xml"
