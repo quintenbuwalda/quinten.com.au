@@ -1,86 +1,73 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# VARIABLES
-YEAR="$(date +%Y)"
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT"
 
+SITE_URL="${SITE_URL:-https://quinten.com.au}"
 
-# INSTALL PANDOC
-PANDOC_VERSION="3.8.2"
+if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
+    echo "installing TinyTeX..."
 
-if command -v pandoc >/dev/null 2>&1; then
-  echo "Using installed pandoc at $(pandoc --version | head -n 1)"
-else
-  OS="$(uname -s)"
-  ARCH="$(uname -m)"
+    curl -fsSL https://yihui.org/tinytex/install-unx.sh | sh
 
-  if [[ "$OS" == "Linux" && "$ARCH" == "x86_64" ]]; then
-    echo "Installing pandoc ${PANDOC_VERSION}..."
+    export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
 
-    wget -q \
-      "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" \
-      -O /tmp/pandoc.tar.gz
-
-    mkdir -p /tmp/pandoc
-
-    tar -xzf /tmp/pandoc.tar.gz \
-      --strip-components=1 \
-      -C /tmp/pandoc
-
-    export PATH="/tmp/pandoc/bin:$PATH"
-  else
-    echo "pandoc is not installed and could not be installed"
-    exit 1
-  fi
+    tlmgr install lwarp
 fi
 
-# COMPILE PAGES
-find src -type f -name '*.tex' | while read -r file; do
-  relative="${file#src/}"
-  output="${relative%.tex}"
+rm -rf .build
+mkdir -p .build public
 
-  mkdir -p "public/$(dirname "$output")"
-  mkdir -p "public/_markdown/$(dirname "$output")"
+find src -type f -name '*.tex' | sort | while read -r file; do
+    page="${file#src/}"
+    page="${page%.tex}"
 
-  echo "Building $file"
+    name="$(basename "$page")"
+    dir="$(dirname "$page")"
+    [[ "$dir" == "." ]] && dir=""
 
-  pandoc "$file" \
-    --standalone \
-    --to=html5 \
-    --template="templates/template.html" \
-    --variable="year:$YEAR" \
-    --output="public/$output.html"
+    work=".build/$page"
+    out="public/$dir"
 
+    mkdir -p "$work" "$out"
 
-  pandoc "$file" \
-    --to=gfm \
-    --output="public/_markdown/$output.md"
+    echo "building $file"
+
+    cp "$file" "$work/$name.tex"
+    cp site.sty "$work/site.sty"
+
+    (
+        cd "$work"
+        pdflatex -interaction=nonstopmode -halt-on-error "$name.tex"
+        lwarpmk html
+    )
+
+    cp "$work/$name.html" "$out/$name.html"
+
+    if [[ -f "$work/lwarp.css" ]]; then
+        cp "$work/lwarp.css" public/lwarp.css
+    fi
 done
 
-# BUILD SITEMAP
-SITE_URL="https://quinten.com.au"
-
 {
-  echo '<?xml version="1.0" encoding="UTF-8"?>'
-  echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    echo '<?xml version="1.0" encoding="UTF-8"?>'
+    echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 
-  find src -type f -name '*.tex' | sort | while read -r file; do
-    relative="${file#src/}"
-    page="${relative%.tex}"
+    find src -type f -name '*.tex' | sort | while read -r file; do
+        page="${file#src/}"
+        page="${page%.tex}"
 
-    # index.tex is the site root
-    if [[ "$page" == "index" ]]; then
-      url="$SITE_URL/"
-    else
-      url="$SITE_URL/$page.html"
-    fi
+        if [[ "$page" == "index" ]]; then
+            url="$SITE_URL/"
+        else
+            url="$SITE_URL/$page.html"
+        fi
 
-    echo '  <url>'
-    echo "    <loc>$url</loc>"
-    echo '  </url>'
-  done
+        echo "  <url><loc>$url</loc></url>"
+    done
 
-  echo '</urlset>'
+    echo '</urlset>'
 } > public/sitemap.xml
 
-echo "Generated public/sitemap.xml"
+echo "Build complete."

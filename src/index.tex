@@ -1,7 +1,9 @@
 \documentclass{article}
 
+\usepackage{site}
 \usepackage{hyperref}
-\usepackage{phaistos}
+% \usepackage[T1]{fontenc}
+\usepackage{fancyvrb}
 
 \title{Quinten's Website}
 \author{}
@@ -9,15 +11,22 @@
 
 \begin{document}
 
+\maketitle
 welcome to my website
 
 \section{whereami}
 
 \href{mailto:q@quinten.com.au}{mail}
--> add mail
--> make math work
--> mayb pandoc not the play
 
 
+\section{pgp}
+\medskip
+\href{https://quinten.com.au/pgp/public-key.asc}{\texttt{download my public key (.asc)}}
+
+\begin{center}
+\begin{BVerbatim}[frame=single]
+3A9E F9E8 600E FB53 F8BA 1A0A 15D1 9BDC C717 757B
+\end{BVerbatim}
+\end{center}
 
 \end{document}

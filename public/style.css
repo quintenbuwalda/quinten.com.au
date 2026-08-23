@@ -1,8 +1,12 @@
+@import url("/lwarp.css");
+
+/* fonts */
 @font-face {
   font-family: "Latin Modern Roman";
   src: url("/fonts/lmroman10-regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -10,6 +14,7 @@
   src: url("/fonts/lmroman10-bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -17,6 +22,13 @@
   src: url("/fonts/lmroman10-italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
+  font-display: swap;
+}
+
+/* base */
+:root {
+  font-family: "Latin Modern Roman", serif;
+  color-scheme: light;
 }
 
 html {
@@ -24,94 +36,181 @@ html {
 }
 
 body {
-  max-width: 700px;
-  margin: 4rem auto;
-  padding: 0 1.5rem;
+  margin: 0;
+  padding: 0;
 
   font-family: "Latin Modern Roman", serif;
   font-size: 18px;
   line-height: 1.55;
-  text-align: left;
+
+  color: #000;
+  background: transparent;
 }
 
-header {
-  text-align: left;
-  /* margin-bottom: 2rem; */
+/* layout */
+div.pagegrid,
+div.homepagegrid {
+  display: block;
+
+  width: auto;
+  max-width: 700px;
+
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+
+  box-sizing: content-box;
+
+  max-height: none;
+  overflow: visible;
 }
 
-/* header hr {
-  border: 0;
-  border-top: 0.4pt solid;
+main.bodycontainer {
+  float: none;
+  width: 100%;
   margin: 0;
-} */
+  padding: 0;
+}
 
-header .title {
+section.textbody {
+  margin: 0;
+  padding: 0;
+}
+
+div.titlepage div.author,
+div.titlepage div.titledate {
+  display: none;
+}
+
+/* header */
+div.titlepage {
+  margin: 0 0 2rem 0;
+  padding: 0 0 0.35rem 0;
+
+  border: 0;
+  border-bottom: 0.4pt solid currentColor;
+
+  text-align: left;
+}
+
+div.titlepage div.title,
+div.titlepage h1 {
+  margin: 0;
+  padding: 0;
+
+  font-family: "Latin Modern Roman", serif;
   font-size: 2.2rem;
   font-weight: 600;
   line-height: 1.2;
-  margin: 0;
+
+  text-align: left;
 }
 
-h1:not(.title) {
+/* body */
+section.textbody h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 1.3;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
 }
 
-h2 {
+section.textbody h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+
   font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.3;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
 }
 
-h3 {
+section.textbody h4 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.3;
+}
+
+section.textbody h5,
+section.textbody h6 {
   margin-top: 1.25rem;
   margin-bottom: 0.4rem;
+
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 p {
   margin-top: 0;
   margin-bottom: 1rem;
+
+  text-indent: 0;
 }
 
-a {
+/* urls */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
   color: inherit;
+}
+
+a,
+a:link,
+a:visited {
   text-decoration: underline;
+  text-decoration-thickness: auto;
   text-underline-offset: 0.12em;
 }
 
-footer {
-  margin: 0;
-  padding: 0;
-  text-align: center;
+a:hover {
+  text-decoration-thickness: 0.08em;
+}
+
+a:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
 }
 
 
-/* fancy latex formatting */
-.tex sub, .latex sub, .latex sup {
-  text-transform: uppercase;
-}
-
-.tex sub, .latex sub {
-  vertical-align: -0.5ex;
-  margin-left: -0.1667em;
-  margin-right: -0.125em;
-}
-
-.tex, .latex, .tex sub, .latex sub {
-  font-size: 1em;
-}
-
-.latex sup {
+/* code */
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco,
+    Consolas, "Liberation Mono", monospace;
   font-size: 0.85em;
-  vertical-align: 0.15em;
-  margin-left: -0.36em;
-  margin-right: -0.15em;
+}
+
+pre {
+  max-width: 100%;
+
+  margin: 1rem 0;
+  padding: 1rem;
+
+  overflow-x: auto;
+
+  border: 0.4pt solid currentColor;
+
+  line-height: 1.4;
+
+  white-space: pre;
+}
+
+/* footer */
+footer {
+  margin: 3rem 0 0 0;
+  padding: 0;
+
+  border: 0;
+
+  font-size: 0.9rem;
+  line-height: 1.4;
+
+  text-align: center;
 }
