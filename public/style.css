@@ -1,8 +1,23 @@
+/*
+ * Quinten's website
+ *
+ * lwarp provides the HTML structure and package compatibility.
+ * Everything below overrides its visual appearance.
+ */
+
+@import url("/lwarp.css");
+
+
+/* ------------------------------------------------------------
+   Fonts
+   ------------------------------------------------------------ */
+
 @font-face {
   font-family: "Latin Modern Roman";
   src: url("/fonts/lmroman10-regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -10,6 +25,7 @@
   src: url("/fonts/lmroman10-bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -17,6 +33,17 @@
   src: url("/fonts/lmroman10-italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
+  font-display: swap;
+}
+
+
+/* ------------------------------------------------------------
+   Base
+   ------------------------------------------------------------ */
+
+:root {
+  font-family: "Latin Modern Roman", serif;
+  color-scheme: light;
 }
 
 html {
@@ -24,94 +51,558 @@ html {
 }
 
 body {
-  max-width: 700px;
-  margin: 4rem auto;
-  padding: 0 1.5rem;
+  margin: 0;
+  padding: 0;
 
   font-family: "Latin Modern Roman", serif;
   font-size: 18px;
   line-height: 1.55;
-  text-align: left;
+
+  color: #000;
+  background: transparent;
 }
+
+
+/* ------------------------------------------------------------
+   lwarp page structure
+   ------------------------------------------------------------ */
+
+/*
+ * lwarp normally uses a grid because it supports side TOCs,
+ * navigation, headers, etc.
+ *
+ * For this site we want one simple centred column.
+ */
+
+div.pagegrid,
+div.homepagegrid {
+  display: block;
+
+  width: auto;
+  max-width: 700px;
+
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+
+  box-sizing: content-box;
+
+  max-height: none;
+  overflow: visible;
+}
+
+main.bodycontainer {
+  float: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+section.textbody {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Hide lwarp's side table of contents. */
+
+div.sidetoccontainer {
+  display: none;
+}
+
+
+/* ------------------------------------------------------------
+   Header
+   ------------------------------------------------------------ */
 
 header {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
   text-align: left;
-  /* margin-bottom: 2rem; */
 }
 
-/* header hr {
-  border: 0;
-  border-top: 0.4pt solid;
-  margin: 0;
-} */
 
-header .title {
+/* ------------------------------------------------------------
+   Document title
+   ------------------------------------------------------------ */
+
+/*
+ * lwarp wraps \maketitle in:
+ *
+ *   <div class="titlepage">
+ *
+ * and normally places the title in:
+ *
+ *   <div class="title">
+ *
+ * This recreates the appearance of the old Pandoc template:
+ *
+ *   <header>
+ *     <h1 class="title">...</h1>
+ *     <hr>
+ *   </header>
+ */
+
+div.titlepage {
+  margin: 0 0 2rem 0;
+  padding: 0 0 0.35rem 0;
+
+  border: 0;
+  border-bottom: 0.4pt solid currentColor;
+
+  text-align: left;
+}
+
+div.titlepage div.title,
+div.titlepage h1 {
+  margin: 0;
+  padding: 0;
+
+  font-family: "Latin Modern Roman", serif;
   font-size: 2.2rem;
   font-weight: 600;
   line-height: 1.2;
-  margin: 0;
+
+  text-align: left;
 }
 
-h1:not(.title) {
+
+/*
+ * Your old Pandoc template displayed only the title.
+ *
+ * Remove these two rules if you later want \author and \date
+ * to appear underneath it.
+ */
+
+div.titlepage div.author,
+div.titlepage div.titledate {
+  display: none;
+}
+
+
+/* ------------------------------------------------------------
+   Headings
+   ------------------------------------------------------------ */
+
+/*
+ * With the article class, lwarp normally maps:
+ *
+ *   \section       -> h2
+ *   \subsection    -> h3
+ *   \subsubsection -> h4
+ */
+
+section.textbody h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 1.3;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
 }
 
-h2 {
+section.textbody h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+
   font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.3;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
 }
 
-h3 {
+section.textbody h4 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.3;
+}
+
+section.textbody h5,
+section.textbody h6 {
   margin-top: 1.25rem;
   margin-bottom: 0.4rem;
+
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
+
+
+/* ------------------------------------------------------------
+   Paragraphs
+   ------------------------------------------------------------ */
 
 p {
   margin-top: 0;
   margin-bottom: 1rem;
+
+  text-indent: 0;
 }
 
-a {
+
+/* ------------------------------------------------------------
+   Links
+   ------------------------------------------------------------ */
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
   color: inherit;
+}
+
+a,
+a:link,
+a:visited {
   text-decoration: underline;
+  text-decoration-thickness: auto;
   text-underline-offset: 0.12em;
 }
 
-footer {
-  margin: 0;
+a:hover {
+  text-decoration-thickness: 0.08em;
+}
+
+a:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   Horizontal rules
+   ------------------------------------------------------------ */
+
+hr {
+  height: 0;
+
+  margin: 1.5rem 0;
+
+  border: 0;
+  border-top: 0.4pt solid currentColor;
+}
+
+
+/* ------------------------------------------------------------
+   Lists
+   ------------------------------------------------------------ */
+
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+li {
+  margin: 0.2rem 0;
+}
+
+li > p {
+  margin-bottom: 0.4rem;
+}
+
+
+/* ------------------------------------------------------------
+   Quotes
+   ------------------------------------------------------------ */
+
+blockquote {
+  margin: 1rem 0 1rem 1.5rem;
+  padding: 0 0 0 1rem;
+
+  border-left: 0.4pt solid currentColor;
+
+  font-style: italic;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ------------------------------------------------------------
+   Figures and images
+   ------------------------------------------------------------ */
+
+figure {
+  margin: 1.5rem 0;
   padding: 0;
+
   text-align: center;
 }
 
-
-/* fancy latex formatting */
-.tex sub, .latex sub, .latex sup {
-  text-transform: uppercase;
+img,
+svg {
+  max-width: 100%;
+  height: auto;
 }
 
-.tex sub, .latex sub {
+figcaption {
+  margin-top: 0.5rem;
+
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+
+/*
+ * Images generated by lwarp's lateximage mechanism.
+ * This is also relevant for package symbols rendered to SVG.
+ */
+
+img.lateximage {
+  max-width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  box-shadow: none;
+
+  background: transparent;
+}
+
+
+/* lwarp keeps the LaTeX source nearby for some generated images. */
+
+div.lateximagesource {
+  display: none;
+}
+
+
+/* ------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------ */
+
+table {
+  margin: 1rem auto;
+
+  border-collapse: collapse;
+
+  font: inherit;
+}
+
+th,
+td {
+  padding: 0.3rem 0.6rem;
+
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: 700;
+}
+
+
+/* ------------------------------------------------------------
+   Code
+   ------------------------------------------------------------ */
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco,
+    Consolas, "Liberation Mono", monospace;
+  font-size: 0.85em;
+}
+
+pre {
+  max-width: 100%;
+
+  margin: 1rem 0;
+  padding: 1rem;
+
+  overflow-x: auto;
+
+  border: 0.4pt solid currentColor;
+
+  line-height: 1.4;
+
+  white-space: pre;
+}
+
+
+/* ------------------------------------------------------------
+   Mathematics
+   ------------------------------------------------------------ */
+
+.MathJax,
+.MathJax_Display {
+  font-size: 1em;
+}
+
+
+/* ------------------------------------------------------------
+   Footnotes
+   ------------------------------------------------------------ */
+
+div.footnotes,
+section.footnotes {
+  margin-top: 2rem;
+
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+
+/* ------------------------------------------------------------
+   lwarp navigation
+   ------------------------------------------------------------ */
+
+nav.topnavigation,
+nav.botnavigation {
+  margin: 1rem 0;
+  padding: 0;
+
+  border: 0;
+
+  font-size: 0.9rem;
+}
+
+nav.topnavigation {
+  margin-bottom: 2rem;
+}
+
+nav.botnavigation {
+  margin-top: 2rem;
+}
+
+
+/* ------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------ */
+
+footer {
+  margin: 3rem 0 0 0;
+  padding: 0;
+
+  border: 0;
+
+  font-size: 0.9rem;
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+footer p {
+  margin: 0;
+}
+
+
+/* ------------------------------------------------------------
+   TeX / LaTeX logos generated by lwarp
+   ------------------------------------------------------------ */
+
+/*
+ * lwarp's \TeX and \LaTeX commands use:
+ *
+ *   .latexlogofont
+ *   .latexlogo
+ *   .latexlogosup
+ *   .latexlogosub
+ *
+ * rather than the old hand-written .latex > sup/sub markup.
+ */
+
+.latexlogofont,
+.latexlogo,
+.latexlogosup,
+.latexlogosub {
+  font-family: "Latin Modern Roman", serif;
+}
+
+.latexlogo {
+  font-size: 1em;
+  white-space: nowrap;
+}
+
+.latexlogosub {
+  font-size: 1em;
+
+  text-transform: uppercase;
+
   vertical-align: -0.5ex;
+
   margin-left: -0.1667em;
   margin-right: -0.125em;
 }
 
-.tex, .latex, .tex sub, .latex sub {
-  font-size: 1em;
-}
-
-.latex sup {
+.latexlogosup {
   font-size: 0.85em;
+
+  text-transform: uppercase;
+
   vertical-align: 0.15em;
+
   margin-left: -0.36em;
   margin-right: -0.15em;
+}
+
+
+/* ------------------------------------------------------------
+   Selection
+   ------------------------------------------------------------ */
+
+::selection {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+
+/* ------------------------------------------------------------
+   Small screens
+   ------------------------------------------------------------ */
+
+@media (max-width: 600px) {
+
+  div.pagegrid,
+  div.homepagegrid {
+    margin: 2rem auto;
+    padding: 0 1.25rem;
+  }
+
+  div.titlepage div.title,
+  div.titlepage h1 {
+    font-size: 1.9rem;
+  }
+
+  body {
+    font-size: 17px;
+  }
+
+}
+
+
+/* ------------------------------------------------------------
+   Print from browser
+   ------------------------------------------------------------ */
+
+@media print {
+
+  html,
+  body {
+    background: #fff;
+  }
+
+  div.pagegrid,
+  div.homepagegrid {
+    max-width: none;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  nav.topnavigation,
+  nav.botnavigation,
+  div.sidetoccontainer {
+    display: none;
+  }
+
 }
