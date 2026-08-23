@@ -33,7 +33,7 @@ node_modules/
 
 # Build / tooling
 dist/
-build/
+.build/
 .cache/
 .wrangler/
 .dev.vars
@@ -46,7 +46,9 @@ temp/
 
 # shit in /public
 public/*.html
-public/*.xml
+public/**/*.html
+public/lwarp.css
+public/sitemap.xml
 _markdown/
 
 # Windows

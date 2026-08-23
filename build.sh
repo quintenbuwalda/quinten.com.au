@@ -1,74 +1,137 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# VARIABLES
-YEAR="$(date +%Y)"
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+SRC="$ROOT/src"
+PUBLIC="$ROOT/public"
+BUILD="$ROOT/.build"
+
+SITE_URL="${SITE_URL:-https://quinten.com.au}"
+
+cd "$ROOT"
+
+mkdir -p "$PUBLIC"
 
 
-# INSTALL PANDOC
-PANDOC_VERSION="3.8.2"
-
-if command -v pandoc >/dev/null 2>&1; then
-  echo "Using installed pandoc at $(pandoc --version | head -n 1)"
-else
-  OS="$(uname -s)"
-  ARCH="$(uname -m)"
-
-  if [[ "$OS" == "Linux" && "$ARCH" == "x86_64" ]]; then
-    echo "Installing pandoc ${PANDOC_VERSION}..."
-
-    wget -q \
-      "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" \
-      -O /tmp/pandoc.tar.gz
-
-    mkdir -p /tmp/pandoc
-
-    tar -xzf /tmp/pandoc.tar.gz \
-      --strip-components=1 \
-      -C /tmp/pandoc
-
-    export PATH="/tmp/pandoc/bin:$PATH"
-  else
-    echo "pandoc is not installed and could not be installed"
-    exit 1
+setup_tex() {
+  if command -v pdflatex >/dev/null &&
+     command -v lwarpmk >/dev/null; then
+    return
   fi
-fi
 
-# COMPILE PAGES
-find src -type f -name '*.tex' | while read -r file; do
-  relative="${file#src/}"
-  output="${relative%.tex}"
+  [[ "$(uname -s)" == "Linux" ]] || {
+    echo "pls install tinytex"
+    exit 1
+  }
 
-  mkdir -p "public/$(dirname "$output")"
-  mkdir -p "public/_markdown/$(dirname "$output")"
+  echo "u dont have tinytex"
 
-  echo "Building $file"
+  curl -fsSL https://yihui.org/tinytex/install-unx.sh |
+    sh -s -- --no-admin
 
-  pandoc "$file" \
-    --standalone \
-    --to=html5 \
-    --template="templates/template.html" \
-    --variable="year:$YEAR" \
-    --output="public/$output.html"
+  TEXBIN="$(find "$HOME/.TinyTeX/bin" -name pdflatex -print -quit)"
+  export PATH="$(dirname "$TEXBIN"):$PATH"
+
+  tlmgr install lwarp
+}
 
 
-  pandoc "$file" \
-    --to=gfm \
-    --output="public/_markdown/$output.md"
-done
+setup_pdftotext() {
+  command -v pdftotext >/dev/null && return
 
-# BUILD SITEMAP
-SITE_URL="https://quinten.com.au"
+  command -v python3 >/dev/null || {
+    echo "pdftotext or python 3 not here"
+    exit 1
+  }
+
+  mkdir -p "$BUILD/bin" "$BUILD/python"
+
+  python3 -m pip install \
+    --quiet \
+    --disable-pip-version-check \
+    --target "$BUILD/python" \
+    pypdf
+
+  export PYTHONPATH="$BUILD/python"
+
+  cat > "$BUILD/bin/pdftotext" <<'PY'
+#!/usr/bin/env python3
+
+import sys
+from pypdf import PdfReader
+
+source = sys.argv[-2]
+output = sys.argv[-1]
+
+with open(output, "w", encoding="utf-8") as f:
+    for page in PdfReader(source).pages:
+        text = page.extract_text(extraction_mode="layout") or ""
+        f.write(text)
+        if text and not text.endswith("\n"):
+            f.write("\n")
+PY
+
+  chmod +x "$BUILD/bin/pdftotext"
+  export PATH="$BUILD/bin:$PATH"
+}
+
+
+setup_tex
+setup_pdftotext
+
+rm -rf "$BUILD/pages"
+mkdir -p "$BUILD/pages"
+
+rm -f "$PUBLIC/lwarp.css" "$PUBLIC/sitemap.xml"
+
+
+while IFS= read -r file; do
+  relative="${file#$SRC/}"
+  page="${relative%.tex}"
+
+  name="$(basename "$page")"
+  dir="$(dirname "$page")"
+
+  [[ "$dir" == "." ]] && dir=""
+
+  work="$BUILD/pages/$page"
+  out="$PUBLIC/$dir"
+
+  mkdir -p "$work" "$out"
+
+  echo "Building $relative"
+
+  cp "$file" "$work/$name.tex"
+  cp "$ROOT/site.sty" "$work/site.sty"
+
+  (
+    cd "$work"
+
+    pdflatex \
+      -interaction=nonstopmode \
+      -halt-on-error \
+      "$name.tex" >/dev/null
+
+    lwarpmk html >/dev/null
+  )
+
+  cp "$work/$name.html" "$out/$name.html"
+
+  if [[ -f "$work/lwarp.css" ]]; then
+    cp "$work/lwarp.css" "$PUBLIC/lwarp.css"
+  fi
+
+done < <(find "$SRC" -type f -name '*.tex' | sort)
+
 
 {
   echo '<?xml version="1.0" encoding="UTF-8"?>'
-  echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+  echo '<urlset xmlns="http://www.sitemaps.org/sitemap/0.9">'
 
-  find src -type f -name '*.tex' | sort | while read -r file; do
-    relative="${file#src/}"
-    page="${relative%.tex}"
+  while IFS= read -r file; do
+    page="${file#$SRC/}"
+    page="${page%.tex}"
 
-    # index.tex is the site root
     if [[ "$page" == "index" ]]; then
       url="$SITE_URL/"
     else
@@ -78,9 +141,12 @@ SITE_URL="https://quinten.com.au"
     echo '  <url>'
     echo "    <loc>$url</loc>"
     echo '  </url>'
-  done
+
+  done < <(find "$SRC" -type f -name '*.tex' | sort)
 
   echo '</urlset>'
-} > public/sitemap.xml
 
-echo "Generated public/sitemap.xml"
+} > "$PUBLIC/sitemap.xml"
+
+
+echo "Build complete."
