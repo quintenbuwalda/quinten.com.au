@@ -1,23 +1,37 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# VARIABLES
+YEAR="$(date +%Y)"
+
+
 # INSTALL PANDOC
 PANDOC_VERSION="3.8.2"
 
-if ! command -v pandoc >/dev/null 2>&1; then
-  echo "Installing Pandoc ${PANDOC_VERSION}..."
+if command -v pandoc >/dev/null 2>&1; then
+  echo "Using installed pandoc at $(pandoc --version | head -n 1)"
+else
+  OS="$(uname -s)"
+  ARCH="$(uname -m)"
 
-  wget -q \
-    "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" \
-    -O /tmp/pandoc.tar.gz
+  if [[ "$OS" == "Linux" && "$ARCH" == "x86_64" ]]; then
+    echo "Installing pandoc ${PANDOC_VERSION}..."
 
-  mkdir -p /tmp/pandoc
+    wget -q \
+      "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" \
+      -O /tmp/pandoc.tar.gz
 
-  tar -xzf /tmp/pandoc.tar.gz \
-    --strip-components=1 \
-    -C /tmp/pandoc
+    mkdir -p /tmp/pandoc
 
-  export PATH="/tmp/pandoc/bin:$PATH"
+    tar -xzf /tmp/pandoc.tar.gz \
+      --strip-components=1 \
+      -C /tmp/pandoc
+
+    export PATH="/tmp/pandoc/bin:$PATH"
+  else
+    echo "pandoc is not installed and could not be installed"
+    exit 1
+  fi
 fi
 
 # COMPILE PAGES
@@ -33,7 +47,8 @@ find src -type f -name '*.tex' | while read -r file; do
   pandoc "$file" \
     --standalone \
     --to=html5 \
-    --css="/style.css" \
+    --template="templates/template.html" \
+    --variable="year:$YEAR" \
     --output="public/$output.html"
 
 

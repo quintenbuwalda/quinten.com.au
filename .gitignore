@@ -44,6 +44,11 @@ temp/
 *.tmp
 *.bak
 
+# shit in /public
+public/*.html
+public/*.xml
+_markdown/
+
 # Windows
 Thumbs.db
 Desktop.ini
