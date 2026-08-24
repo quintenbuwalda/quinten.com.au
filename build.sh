@@ -15,7 +15,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
 
     export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
 
-    tlmgr install scheme-medium lwarp
+    tlmgr install scheme-full lwarp
 fi
 
 rm -rf .build
