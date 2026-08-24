@@ -16,13 +16,8 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
     export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
 
     tlmgr install \
-      collection-latexrecommended \
-      collection-fontsrecommended \
+      scheme-medium \
       lwarp \
-      hyperref \
-      fancyvrb \
-      ifptex \
-      verifycommand \
       cm-super
 fi
 
