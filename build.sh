@@ -6,6 +6,8 @@ cd "$ROOT"
 
 SITE_URL="${SITE_URL:-https://quinten.com.au}"
 
+export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
+
 if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
     echo "installing TinyTeX..."
 
@@ -13,7 +15,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
 
     export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
 
-    tlmgr install lwarp
+    tlmgr install scheme-medium lwarp
 fi
 
 rm -rf .build
