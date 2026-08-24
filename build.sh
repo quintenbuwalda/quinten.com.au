@@ -20,6 +20,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
       hyperref \
       fancyvrb \
       ifptex \
+      verifycommand \
       cm-super
 fi
 
