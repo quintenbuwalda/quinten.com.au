@@ -18,6 +18,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
     tlmgr install \
       scheme-medium \
       lwarp \
+      ifptex \
       verifycommand \
       catchfile \
       newunicodechar \
