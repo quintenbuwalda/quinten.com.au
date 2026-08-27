@@ -43,5 +43,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy public --project-name=portfolio-site
+          command: pages deploy public --project-name=personal-site
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
