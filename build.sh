@@ -51,6 +51,9 @@ find src -type f -name '*.tex' -print0 |
 
         cp "$work/$name.html" "$out/$name.html"
 
+        # thank you claude for this blessing of a command
+        perl -pi -e 's{(<a href="/[^"]*") target="_blank"}{$1}g' "$out/$name.html"
+        
         if [[ -f "$work/lwarp.css" ]]; then
             cp "$work/lwarp.css" public/lwarp.css
         fi

@@ -3,18 +3,26 @@
 
 \RequirePackage{lwarp}
 
+\usepackage{graphicx}
+\usepackage{hyperref}
+
 \setcounter{FileDepth}{-5}
 
-\CSSFilename{style.css}
+\CSSFilename{/style.css}
 \HTMLLanguage{en-AU}
+
+% easy cmds
+\newcommand{\BackTo}[2]{%
+  \href{#1}{$\leftarrow$ #2}%
+}
 
 
 \HTMLFirstPageBottom{%
-  \textcopyright\ \the\year\ Quinten Buwalda. No rights reserved. \\
-  Built with \LaTeX
+  \textcopyright\ \the\year\ Quinten Buwalda. Some rights reserved. \\
+  (kind of) Written in \LaTeX
 }
 
 \HTMLPageBottom{%
-  \textcopyright\ \the\year\ Quinten Buwalda. No rights reserved. \\
-  Built with \LaTeX
+  \textcopyright\ \the\year\ Quinten Buwalda. Some rights reserved. \\
+  (kind of) Written in \LaTeX
 }

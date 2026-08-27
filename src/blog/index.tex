@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\usepackage{site}
+\usepackage{hyperref}
+
+\newcommand{\BlogCard}[3]{%
+  \begin{BlockClass}{blog-card}
+    \textbf{\href{#1}{#2}}
+    \medskip
+
+    #3
+
+    \medskip
+    \href{#1}{read more $\rightarrow$}
+  \end{BlockClass}
+}
+
+\title{blog}
+\author{}
+\date{}
+
+\begin{document}
+
+\BackTo{/index.html}{back}
+
+\maketitle
+
+\BlogCard
+  {/blog/index.html}
+  {nothing here yet...}
+  {}
+
+\BackTo{/index.html}{back}
+
+\end{document}
