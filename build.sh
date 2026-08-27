@@ -21,6 +21,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
       ifptex \
       upquote \
       verifycommand \
+      xifthen \
       comment \
       catchfile \
       newunicodechar \
