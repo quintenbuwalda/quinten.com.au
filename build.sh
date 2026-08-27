@@ -19,6 +19,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
       scheme-medium \
       lwarp \
       ifptex \
+      upquote \
       verifycommand \
       catchfile \
       newunicodechar \
