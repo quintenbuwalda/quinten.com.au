@@ -23,6 +23,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
       verifycommand \
       xifthen \
       ifmtarg \
+      printlen \
       comment \
       catchfile \
       newunicodechar \
