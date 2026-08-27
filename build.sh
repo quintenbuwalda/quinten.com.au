@@ -22,6 +22,7 @@ if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
       upquote \
       verifycommand \
       xifthen \
+      ifmtarg \
       comment \
       catchfile \
       newunicodechar \
