@@ -1,88 +1,80 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
 SITE_URL="${SITE_URL:-https://quinten.com.au}"
 
-export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
-
-if ! command -v pdflatex >/dev/null || ! command -v lwarpmk >/dev/null; then
-    echo "installing TinyTeX..."
-
-    curl -fsSL https://yihui.org/tinytex/install-unx.sh | sh
-
-    export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
-
-    tlmgr install \
-      scheme-medium \
-      lwarp \
-      ifptex \
-      upquote \
-      verifycommand \
-      xifthen \
-      ifmtarg \
-      printlen \
-      comment \
-      catchfile \
-      newunicodechar \
-      xpatch \
-      xstring \
-      environ \
-      cm-super
-fi
+for cmd in pdflatex lwarpmk pdftotext perl; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "error: required command not found: $cmd" >&2
+        exit 1
+    fi
+done
 
 rm -rf .build
 mkdir -p .build public
 
-find src -type f -name '*.tex' | sort | while read -r file; do
-    page="${file#src/}"
-    page="${page%.tex}"
+find src -type f -name '*.tex' -print0 |
+    sort -z |
+    while IFS= read -r -d '' file; do
 
-    name="$(basename "$page")"
-    dir="$(dirname "$page")"
-    [[ "$dir" == "." ]] && dir=""
+        page="${file#src/}"
+        page="${page%.tex}"
 
-    work=".build/$page"
-    out="public/$dir"
+        name="$(basename "$page")"
+        dir="$(dirname "$page")"
+        [[ "$dir" == "." ]] && dir=""
 
-    mkdir -p "$work" "$out"
+        work=".build/$page"
+        out="public/$dir"
 
-    echo "building $file"
+        mkdir -p "$work" "$out"
 
-    cp "$file" "$work/$name.tex"
-    cp site.sty "$work/site.sty"
+        echo "building $file"
 
-    (
-        cd "$work"
-        pdflatex -interaction=nonstopmode -halt-on-error "$name.tex"
-        lwarpmk html
-    )
+        cp "$file" "$work/$name.tex"
+        cp site.sty "$work/site.sty"
 
-    cp "$work/$name.html" "$out/$name.html"
+        (
+            cd "$work"
 
-    if [[ -f "$work/lwarp.css" ]]; then
-        cp "$work/lwarp.css" public/lwarp.css
-    fi
-done
+            pdflatex \
+                -file-line-error \
+                -interaction=nonstopmode \
+                -halt-on-error \
+                "$name.tex"
+
+            lwarpmk html
+        )
+
+        cp "$work/$name.html" "$out/$name.html"
+
+        if [[ -f "$work/lwarp.css" ]]; then
+            cp "$work/lwarp.css" public/lwarp.css
+        fi
+    done
 
 {
     echo '<?xml version="1.0" encoding="UTF-8"?>'
     echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 
-    find src -type f -name '*.tex' | sort | while read -r file; do
-        page="${file#src/}"
-        page="${page%.tex}"
+    find src -type f -name '*.tex' -print0 |
+        sort -z |
+        while IFS= read -r -d '' file; do
 
-        if [[ "$page" == "index" ]]; then
-            url="$SITE_URL/"
-        else
-            url="$SITE_URL/$page.html"
-        fi
+            page="${file#src/}"
+            page="${page%.tex}"
 
-        echo "  <url><loc>$url</loc></url>"
-    done
+            if [[ "$page" == "index" ]]; then
+                url="$SITE_URL/"
+            else
+                url="$SITE_URL/$page.html"
+            fi
+
+            echo "  <url><loc>$url</loc></url>"
+        done
 
     echo '</urlset>'
 } > public/sitemap.xml

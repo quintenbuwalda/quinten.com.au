@@ -23,21 +23,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y poppler-utils
-
-      - name: Cache tinytex
-        uses: actions/cache@v4
-        with:
-          path: ~/.TinyTeX
-          key: tinytex-v1-${{ runner.os }}-${{ hashFiles('build.sh') }}
-          restore-keys: |
-            tinytex-v1-${{ runner.os }}-
-
       - name: Build site
-        run: ./build.sh
+        uses: xu-cheng/texlive-action@v3
+        with:
+          texlive_version: 2026
+          os: debian
+          scheme: full
+          run: |
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update
+            apt-get install -y --no-install-recommends \
+              poppler-utils \
+              perl
+
+            ./build.sh
 
       - name: Deploy to CF Pages
         uses: cloudflare/wrangler-action@v4
