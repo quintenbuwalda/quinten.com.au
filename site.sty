@@ -22,12 +22,27 @@
   }%
 }
 
+% HTML-only Website Carbon badge.
+\newcommand{\WebsiteCarbonBadge}{}
+\begin{warpHTML}
+\renewcommand{\WebsiteCarbonBadge}{%
+  \LWR@stoppars%
+  \LWR@htmltag{div id=\LWR@orig@textquotedbl{}wcb\LWR@orig@textquotedbl{} class=\LWR@orig@textquotedbl{}carbonbadge\LWR@orig@textquotedbl{}}%
+  \LWR@htmltag{/div}\LWR@orignewline%
+  \LWR@htmltag{script src=\LWR@orig@textquotedbl{}https://unpkg.com/website-carbon-badges@1.1.3/b.min.js\LWR@orig@textquotedbl{} defer}%
+  \LWR@htmltag{/script}\LWR@orignewline%
+  \LWR@startpars%
+}
+\end{warpHTML}
+
 \HTMLFirstPageBottom{%
   \textcopyright\ \the\year\ Quinten Buwalda. Some rights reserved. \\
   (kind of) Written in \LaTeX
+  \WebsiteCarbonBadge
 }
 
 \HTMLPageBottom{%
   \textcopyright\ \the\year\ Quinten Buwalda. Some rights reserved. \\
   (kind of) Written in \LaTeX
+  \WebsiteCarbonBadge
 }
