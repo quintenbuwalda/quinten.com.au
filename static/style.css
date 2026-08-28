@@ -233,13 +233,24 @@ footer {
 }
 
 /* 88x31 buttons */
-img.hyperimage {
+.buttons-88x31 img.hyperimage {
     width: 88px;
     height: 31px;
     max-width: none;
+}
+
+.buttons-88x31 img.hyperimage,
+.tamanotchi img.hyperimage {
     padding: 0;
     margin: 0;
     border: 0;
     box-shadow: none;
     background: none;
+}
+
+/* tamaNOTchi uses its natural, larger size */
+.tamanotchi img.hyperimage {
+    width: auto;
+    height: auto;
+    max-width: 100%;
 }

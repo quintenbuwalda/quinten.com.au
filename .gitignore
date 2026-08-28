@@ -3,8 +3,6 @@
 .AppleDouble
 .LSOverride
 ._*
-
-# macOS filesystem metadata
 .Spotlight-V100
 .Trashes
 .fseventsd
@@ -38,19 +36,12 @@ dist/
 .wrangler/
 .dev.vars
 
+# Outputs
+public/
+_markdown/
+
 # Temporary files
 tmp/
 temp/
 *.tmp
 *.bak
-
-# shit in /public
-public/*.html
-public/**/*.html
-public/lwarp.css
-public/sitemap.xml
-_markdown/
-
-# Windows
-Thumbs.db
-Desktop.ini

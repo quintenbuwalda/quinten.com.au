@@ -13,8 +13,9 @@ for cmd in pdflatex lwarpmk pdftotext perl; do
     fi
 done
 
-rm -rf .build
+rm -rf .build public
 mkdir -p .build public
+cp -R static/. public/
 
 find src -type f -name '*.tex' -print0 |
     sort -z |
