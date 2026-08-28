@@ -29,6 +29,7 @@
 :root {
   font-family: "Latin Modern Roman", serif;
   color-scheme: light;
+  --page-max-width: 700px;
 }
 
 html {
@@ -53,7 +54,7 @@ div.homepagegrid {
   display: block;
 
   width: auto;
-  max-width: 700px;
+  max-width: var(--page-max-width);
 
   margin: 4rem auto;
   padding: 0 1.5rem;
@@ -232,19 +233,10 @@ footer {
   margin-bottom: 0;
 }
 
-/* button row */
-.button-row {
-  position: relative;
+/* 88x31 button row */
+.buttons-88x31 {
   display: block;
-  min-height: 31px;
   line-height: 0;
-}
-
-.tamanotchi {
-  position: absolute;
-  right: 1rem;
-  bottom: 0;
-  z-index: 1;
 }
 
 .buttons-88x31 img.hyperimage {
@@ -263,6 +255,14 @@ footer {
 }
 
 /* tamanotchi specific */
+.tamanotchi {
+  position: fixed;
+  right: 2.5rem;
+  bottom: 3.5rem;
+  z-index: 10;
+  line-height: 0;
+}
+
 .tamanotchi img.hyperimage {
   animation: wobble 4s step-end infinite;
   transform-origin: 50% 100%;
@@ -286,14 +286,7 @@ footer {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .tamanotchi img.hyperimage {
-    animation: none;
-  }
-}
-
 /* inline imgs */
-
 .inline-character img.hyperimage {
   width: auto;
   height: 1em;
@@ -303,4 +296,25 @@ footer {
   border: 0;
   box-shadow: none;
   background: none;
+}
+
+
+/* adjustments */
+@media (prefers-reduced-motion: reduce) {
+  .tamanotchi img.hyperimage {
+    animation: none;
+  }
+}
+
+@media (min-width: 601px) {
+  .tamanotchi {
+    right: max(2.5rem, calc((100vw - var(--page-max-width)) / 2));
+  }
+}
+
+@media (max-width: 600px) {
+  div.pagegrid,
+  div.homepagegrid {
+    margin-top: 3rem;
+  }
 }
