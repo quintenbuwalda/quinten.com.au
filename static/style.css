@@ -218,39 +218,89 @@ footer {
 
 /* blog stuff */
 .blog-card {
-    border: 1px solid currentColor;
-    padding: 1.25rem;
-    margin: 1.5rem 0;
-    border-radius: 4px;
+  border: 1px solid currentColor;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
 }
 
 .blog-card > *:first-child {
     margin-top: 0;
 }
 
-.blog-card > *:last-child {
-    margin-bottom: 0;
+.blog-ard > *:last-child {
+  margin-bottom: 0;
 }
 
-/* 88x31 buttons */
+/* button row */
+.button-row {
+  position: relative;
+  display: block;
+  min-height: 31px;
+  line-height: 0;
+}
+
+.tamanotchi {
+  position: absolute;
+  right: 1rem;
+  bottom: 0;
+  z-index: 1;
+}
+
 .buttons-88x31 img.hyperimage {
-    width: 88px;
-    height: 31px;
-    max-width: none;
+  width: 88px;
+  height: 31px;
+  max-width: none;
 }
 
 .buttons-88x31 img.hyperimage,
 .tamanotchi img.hyperimage {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    box-shadow: none;
-    background: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  background: none;
 }
 
-/* tamaNOTchi uses its natural, larger size */
+/* tamanotchi specific */
 .tamanotchi img.hyperimage {
-    width: auto;
-    height: auto;
-    max-width: 100%;
+  animation: wobble 4s step-end infinite;
+  transform-origin: 50% 100%;
+}
+
+@keyframes wobble {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(11deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-9deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tamanotchi img.hyperimage {
+    animation: none;
+  }
+}
+
+/* inline imgs */
+
+.inline-character img.hyperimage {
+  width: auto;
+  height: 1em;
+  vertical-align: -0.15em;
+  margin: 0 0.08em;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: none;
 }
