@@ -30,10 +30,11 @@
   font-family: "Latin Modern Roman", serif;
   color-scheme: light;
   --page-max-width: 700px;
+  --page-background: #f8f5ed;
 }
 
 html {
-  background: #f8f5ed;
+  background: var(--page-background);
 }
 
 body {
@@ -214,6 +215,77 @@ footer {
   line-height: 1.4;
 
   text-align: center;
+}
+
+/* footer badges row */
+.footer-badges {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.footer-badges > p {
+  display: flex;
+  align-items: center;
+  margin: 0.2em 0 0;
+  line-height: 0;
+}
+
+.footer-badges img.hyperimage {
+  width: 88px;
+  height: 31px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: none;
+}
+
+/* edit the carbon badge */
+footer #wcb.carbonbadge {
+  --b1: #000;
+  --b2: #000;
+  position: relative;
+  display: inline-block;
+  color: #000;
+  font-family: "Latin Modern Roman", serif;
+}
+
+footer #wcb.carbonbadge #wcb_2,
+footer #wcb.carbonbadge #wcb_a,
+footer #wcb.carbonbadge #wcb_g {
+  color: #000;
+  font-family: inherit;
+}
+
+footer #wcb.carbonbadge #wcb_a,
+footer #wcb.carbonbadge #wcb_g {
+  border-color: #000;
+  background: var(--page-background);
+}
+
+footer #wcb.carbonbadge #wcb_g {
+  border-right: 0.13em solid #000;
+  border-radius: 0.3em;
+}
+
+footer #wcb.carbonbadge #wcb_a {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 0.3em;
+  color: transparent;
+  background: transparent;
+  font-size: 0;
+}
+
+footer #wcb.carbonbadge #wcb_a:focus-visible {
+  outline: 1px solid #000;
+  outline-offset: 2px;
 }
 
 
