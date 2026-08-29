@@ -12,24 +12,105 @@
 \BackTo{/}{back}
 
 \maketitle
-I was browsing some cool websites and vaguely remember a couple with something called a colophon, so thats what I'm copying today.
-From what I understand its a little summary of how the website was made as well as any other bits of useful information.
+I was browsing some cool websites and vaguely remember a couple with something called a colophon, so that's what I'm copying here.
+From what I understand it is a little summary of how the website was made as well as any other bits of useful information.
 
 \section{so what's up with this website?}
-This website's content is written in \LaTeX  syntax and then compiled with \href{https://ctan.org/pkg/lwarp}{lwarp} into HTML.
-This compilation happens in \inline{/media/ghactions.png}{ghactions} Github Actions from the websites repo and 
+This website's content is written in \LaTeX\; syntax and then compiled with \href{https://ctan.org/pkg/lwarp}{lwarp} into HTML.
+This compilation happens in \inline{/media/ghactions.png}{ghactions} Github Actions from the website's repo and 
 the generated static files are pushed to a Cloudflare Worker and hosted under this domain.
 
 
-\section{do you care privacy?}
+\section{privacy}
+This website follows the principles of the \href{https://www.legislation.gov.au/C2004A03712}{Australian Privacy Act 1988} 
+and \href{https://data.europa.eu/eli/reg/2016/679}{European Union General Data Protection Regulation}.
+
+\subsection{what data is collected? (and why!)}
+Some data about your usage of the site and its services may be collected for analytics (generally) or other purposes.
 
 
+Examples of data \textbf{not} collected;
+\begin{itemize}
+\item Your IP address (hashed or otherwise),
+\item Your cookies,
+\item Any other identifier or personal information that may identify you.
+\end{itemize}
 
+Examples of data collected;
+\begin{enumerate}
+\item By visiting this website,
 
+\begin{enumerate}
+\item The following data is collected upon loading any page or subpage,
+\begin{verbatim}
+{
+	"b": "[beacon id]",
+	"e": "load",
+	"u": "https://quinten.com.au/[PAGE]",
+	"r": "[referrer]",
+	"p": [bool],
+	"q": [bool],
+	"t": "[timezone]"
+}
+\end{verbatim}
 
+\item The follow data is collected upon unloading any page or subpage,
+\begin{verbatim}
+{
+	"b": "[beacon id]",
+	"e": "unload",
+	"m": [time (ms)]
+}
+\end{verbatim}
 
-1stly, tracking...
-quinten.com.au records site visits in a privacy-preserving manner, see 
+\end{enumerate}
+
+For both event types, \\
+\textbf{(b)} is a randomly generated identifier that links the load and unload event across your visit to a specific page, \\
+\textbf{(p)} represents if it is the first time you have visited this website, \\
+\textbf{(q)} represents if it is the first time you have visited this page.
+
+For more information see the documentation availble at \href{https://medama.io}{medama.io}. This page will be updated if additional event
+types are supported in the future or if there are any changes in the methodology of data collection.
+
+\item If you decide to contact me in any form or leave any content on the website where applicable,
+If you contact me, submit a form, or otherwise provide content through this website, I may collect 
+and retain the information you provide.
+
+This information will be used for the purpose of receiving, reviewing, displaying, responding to, 
+and maintaining a record of your communication where necessary.
+
+You may request deletion of this information at any time by emailing me at \href{mailto:q@quinten.com.au}{q@quinten.com.au} provided
+there is no legal basis or obligation by which I must retain your information. 
+
+\item If you decide to dial the phone number listed on the website
+Your phone number and the date, time, and duration of the call will be retained generally for a period of two years as is required 
+under the \href{https://www.legislation.gov.au/C2004A02124}{Australian Telecommunications (Interception and Access) Act 1979} by Crazytel, 
+my telecommunications provider.
+
+You may view \href{https://crazytel.com.au/legal/privacypolicy/}{Crazytel's privacy policy} and 
+the \href{https://www.legislation.gov.au/C2004A02124}{relevant legislation} to learn more.
+
+\end{enumerate}
+
+\subsection{how is data collected?}
+Data is collected via a tracking script embedded in each page.
+
+For more information see the documentation availble at \href{https://medama.io}{medama.io}.
+
+\subsection{how can i manage my data?}
+Generally, because your data is not linked to you or your personal information it is not possible to enact your access, 
+erasure or portability rights.
+
+If you have voluntarily or inadventantly shared any information that may identify you, you may request deletion at any time as outlined above.
+
+\subsection{any third parties?}
+There are a few third parties that may collect information about you outside of my control or influence, these include:
+\begin{itemize}
+\item Cloudflare Inc. (\href{https://www.cloudflare.com/policies/privacy/}{privacy policy})
+\item Website Carbon (subsidiary of Wholegrain Digital) (\href{https://www.websitecarbon.com/privacy-policy/}{privacy policy})
+\item tamaNOTchi.world (\href{https://tamanotchi.world/privacy/}{privacy policy})
+\end{itemize}
 
 \BackTo{/}{back}
 
