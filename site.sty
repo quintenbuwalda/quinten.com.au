@@ -11,6 +11,13 @@
 \CSSFilename{/style.css}
 \HTMLLanguage{en-AU}
 
+\begin{warpHTML}
+\apptocmd{\LWR@HTMLmeta}{%
+  \LWR@htmltag{script defer src=\LWR@orig@textquotedbl{}https://analytics.lab.quinten.com.au/script.js\LWR@orig@textquotedbl{}}%
+  \LWR@htmltag{/script}\LWR@orignewline%
+}{}{}
+\end{warpHTML}
+
 % easy cmds
 \newcommand{\BackTo}[2]{%
   \href{#1}{$\leftarrow$ #2}%
@@ -22,7 +29,6 @@
   }%
 }
 
-% HTML-only Website Carbon badge.
 \newcommand{\WebsiteCarbonBadge}{}
 \begin{warpHTML}
 \renewcommand{\WebsiteCarbonBadge}{%
