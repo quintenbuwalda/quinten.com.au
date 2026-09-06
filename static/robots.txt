@@ -2,3 +2,5 @@
 
 User-agent: *
 Allow: /
+
+Sitemap: https://quinten.com.au/sitemap.xml
