@@ -30,6 +30,8 @@ pnpm-debug.log*
 node_modules/
 
 # Build / tooling
+__pycache__/
+*.pyc
 dist/
 .build/
 .cache/

@@ -1,0 +1,151 @@
+{
+  "meta": [
+    {
+      "name": "description",
+      "content": "The now page for Quinten Buwalda."
+    },
+    {
+      "name": "author",
+      "content": "Quinten Buwalda"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:site_name",
+      "content": "Quinten Buwalda"
+    },
+    {
+      "property": "og:locale",
+      "content": "en_AU"
+    },
+    {
+      "property": "og:title",
+      "content": "Now | Quinten Buwalda"
+    },
+    {
+      "property": "og:description",
+      "content": "The now page for Quinten Buwalda."
+    },
+    {
+      "property": "og:url",
+      "content": "https://quinten.com.au/now"
+    },
+    {
+      "name": "twitter:card",
+      "content": "summary"
+    },
+    {
+      "name": "twitter:title",
+      "content": "Now | Quinten Buwalda"
+    },
+    {
+      "name": "twitter:description",
+      "content": "The now page for Quinten Buwalda."
+    }
+  ],
+  "links": [],
+  "jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://quinten.com.au/#person",
+        "name": "Quinten Buwalda",
+        "mainEntityOfPage": {
+          "@id": "https://quinten.com.au#website"
+        },
+        "givenName": "Quinten",
+        "familyName": "Buwalda",
+        "description": "Mechanical and Biomedical Engineering Student at UNSW Sydney.",
+        "disambiguatingDescription": "Engineering Student @ UNSW",
+        "jobTitle": "Engineering Student",
+        "knowsLanguage": [
+          "en",
+          "nl"
+        ],
+        "nationality": {
+          "@type": "Country",
+          "name": "Australia"
+        },
+        "homeLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Sydney",
+            "addressRegion": "New South Wales",
+            "addressCountry": "AU"
+          }
+        },
+        "affiliation": {
+          "@type": "CollegeOrUniversity",
+          "url": "https://unsw.edu.au",
+          "name": "University of New South Wales",
+          "sameAs": [
+            "https://www.wikidata.org/wiki/Q734764",
+            "https://en.wikipedia.org/wiki/University_of_New_South_Wales"
+          ]
+        },
+        "sameAs": [
+          "https://github.com/quintenbuwalda",
+          "https://www.linkedin.com/in/quintenb",
+          "https://www.instagram.com/quinten.hwb/",
+          "https://orcid.org/0009-0002-4350-0454"
+        ],
+        "url": "https://quinten.com.au/"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://quinten.com.au/#website",
+        "url": "https://quinten.com.au/",
+        "name": "Quinten Buwalda",
+        "publisher": {
+          "@id": "https://quinten.com.au/#person"
+        },
+        "alternateName": [
+          "quinten.com.au",
+          "Quinten",
+          "quinten"
+        ],
+        "inLanguage": "en",
+        "description": "The website of Quinten Buwalda, an engineering student studying in Sydney at the University of New South Wales."
+      },
+      {
+        "@type": "WebPage",
+        "name": "/now",
+        "inLanguage": "en-AU",
+        "isPartOf": {
+          "@id": "https://quinten.com.au/#website"
+        },
+        "author": {
+          "@id": "https://quinten.com.au/#person"
+        },
+        "description": "now: At the moment i’m working on many, many parts of my website, most of which will take a while to do. I’m also working on my student project.",
+        "@id": "https://quinten.com.au/now#webpage",
+        "url": "https://quinten.com.au/now",
+        "breadcrumb": {
+          "@id": "https://quinten.com.au/now#breadcrumb"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://quinten.com.au/now#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "home",
+            "item": "https://quinten.com.au/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "now",
+            "item": "https://quinten.com.au/now"
+          }
+        ]
+      }
+    ]
+  }
+}

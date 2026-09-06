@@ -4,9 +4,7 @@ set -Eeuo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-SITE_URL="${SITE_URL:-https://quinten.com.au}"
-
-for cmd in pdflatex lwarpmk pdftotext perl; do
+for cmd in pdflatex lwarpmk pdftotext perl python3; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "error: required command not found: $cmd" >&2
         exit 1
@@ -60,27 +58,6 @@ find src -type f -name '*.tex' -print0 |
         fi
     done
 
-{
-    echo '<?xml version="1.0" encoding="UTF-8"?>'
-    echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-
-    find src -type f -name '*.tex' -print0 |
-        sort -z |
-        while IFS= read -r -d '' file; do
-
-            page="${file#src/}"
-            page="${page%.tex}"
-
-            if [[ "$page" == "index" ]]; then
-                url="$SITE_URL/"
-            else
-                url="$SITE_URL/$page.html"
-            fi
-
-            echo "  <url><loc>$url</loc></url>"
-        done
-
-    echo '</urlset>'
-} > public/sitemap.xml
+python3 scripts/metadata.py
 
 echo "Build complete."
