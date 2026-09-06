@@ -54,7 +54,7 @@
         "@id": "https://quinten.com.au/#person",
         "name": "Quinten Buwalda",
         "mainEntityOfPage": {
-          "@id": "https://quinten.com.au#website"
+          "@id": "https://quinten.com.au/#webpage"
         },
         "givenName": "Quinten",
         "familyName": "Buwalda",
@@ -81,7 +81,7 @@
         "affiliation": {
           "@type": "CollegeOrUniversity",
           "url": "https://unsw.edu.au",
-          "name": "University of New South Wales",
+          "name": "UNSW Sydney",
           "sameAs": [
             "https://www.wikidata.org/wiki/Q734764",
             "https://en.wikipedia.org/wiki/University_of_New_South_Wales"
